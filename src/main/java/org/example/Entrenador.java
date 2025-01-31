@@ -9,7 +9,6 @@ import java.util.Objects;
 @Access(AccessType.FIELD)
 public class Entrenador {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long idEntrenador;
     private String nombre;
     private LocalDate fechaNacimiento;

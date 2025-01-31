@@ -15,11 +15,30 @@ public class EquipoSerializer implements JsonSerializer<Equipo> {
         equipoJson.addProperty("idEquipo", equipo.getIdEquipo());
         equipoJson.addProperty("nombre", equipo.getNombre());
         equipoJson.addProperty("ciudad", equipo.getCiudad());
-        equipoJson.addProperty("conferencia", equipo.getConferencia().toString());
-        equipoJson.addProperty("division", equipo.getDivision().toString());
+        equipoJson.addProperty("conferencia", mapearConferencia(equipo.getConferencia()));
+        equipoJson.addProperty("division", mapearDivision(equipo.getDivision()));
         equipoJson.addProperty("nombreCompleto", equipo.getNombreCompleto());
         equipoJson.addProperty("abreviatura", equipo.getAbreviatura());
 
         return equipoJson;
     }
+
+    private String mapearConferencia(Conferencia conferencia) {
+        return switch (conferencia) {
+            case ESTE -> "EAST";
+            case OESTE -> "WEST";
+        };
+    }
+
+    private String mapearDivision(Division division) {
+        return switch (division) {
+            case ATLANTICO -> "ATLANTIC";
+            case CENTRAL -> "CENTRAL";
+            case SURESTE -> "SOUTHEAST";
+            case NOROESTE -> "NORTHWEST";
+            case PACIFICO -> "PACIFIC";
+            case SUROESTE -> "SOUTHWEST";
+        };
+    }
 }
+

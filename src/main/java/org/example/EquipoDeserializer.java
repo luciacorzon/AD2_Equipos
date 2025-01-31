@@ -21,8 +21,8 @@ public class EquipoDeserializer implements JsonDeserializer<List<Equipo>> {
             equipo.setIdEquipo(equipoJson.get("idEquipo").getAsLong());
             equipo.setNombre(equipoJson.get("nombre").getAsString());
             equipo.setCiudad(equipoJson.get("ciudad").getAsString());
-            equipo.setConferencia(Conferencia.valueOf(equipoJson.get("conferencia").getAsString()));
-            equipo.setDivision(Division.valueOf(equipoJson.get("division").getAsString()));
+            equipo.setConferencia(mapearConferencia(equipoJson.get("conferencia").getAsString()));
+            equipo.setDivision(mapearDivision(equipoJson.get("division").getAsString()));
             equipo.setNombreCompleto(equipoJson.get("nombreCompleto").getAsString());
             equipo.setAbreviatura(equipoJson.get("abreviatura").getAsString());
 
@@ -30,5 +30,25 @@ public class EquipoDeserializer implements JsonDeserializer<List<Equipo>> {
         }
 
         return equipos;
+    }
+
+    private Conferencia mapearConferencia(String conferencia) {
+        return switch (conferencia) {
+            case "EAST" -> Conferencia.ESTE;
+            case "WEST" -> Conferencia.OESTE;
+            default -> throw new JsonParseException("Conferencia desconocida: " + conferencia);
+        };
+    }
+
+    private Division mapearDivision(String division) {
+        return switch (division) {
+            case "ATLANTIC" -> Division.ATLANTICO;
+            case "CENTRAL" -> Division.CENTRAL;
+            case "SOUTHEAST" -> Division.SURESTE;
+            case "NORTHWEST" -> Division.NOROESTE;
+            case "PACIFIC" -> Division.PACIFICO;
+            case "SOUTHWEST" -> Division.SUROESTE;
+            default -> throw new JsonParseException("División desconocida: " + division);
+        };
     }
 }

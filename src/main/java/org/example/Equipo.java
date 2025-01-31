@@ -8,7 +8,7 @@ import java.util.Objects;
 @Access(AccessType.FIELD)
 public class Equipo {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(unique = true)
     private Long idEquipo;
     private String nombre;
     private String ciudad;
@@ -17,6 +17,7 @@ public class Equipo {
     @Enumerated(EnumType.STRING)
     private Division division;
     private String nombreCompleto;
+    @Column(unique = true)
     private String abreviatura;
     // MappedBy fai que non se cree unha columna de clave foránea na táboa Equipo
     // senón que se fai unha relación entre as táboas Equipo e Entrenador,
@@ -93,6 +94,14 @@ public class Equipo {
 
     public void setAbreviatura(String abreviatura) {
         this.abreviatura = abreviatura;
+    }
+
+    public Entrenador getEntrenador() {
+        return entrenador;
+    }
+
+    public void setEntrenador(Entrenador entrenador) {
+        this.entrenador = entrenador;
     }
 
     @Override

@@ -1,17 +1,24 @@
 package org.example;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import java.time.LocalDate;
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        EquipoDAO dao = new EquipoDAO();
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+        List<Equipo> equipos = dao.getAllFromJSON();
+        for (Equipo e: equipos){
+            System.out.println(e);
+            dao.saveEquipoBD(e);
         }
+
+        Equipo equipo1 =  equipos.get(0);
+
+        Entrenador entrenador1 =  new Entrenador(1L, "Guardiola", LocalDate.of(1960, 5, 4), 1000, equipo1);
+        dao.saveEntrenador(entrenador1);
+
+        dao.asignarEntrenadorAEquipo(1L, 1L);
+        System.out.println(equipo1.getEntrenador());
     }
 }
