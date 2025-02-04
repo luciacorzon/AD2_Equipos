@@ -1,6 +1,10 @@
-package org.example;
+package org.example.serializadores;
 
 import com.google.gson.*;
+import org.example.Conferencia;
+import org.example.Division;
+import org.example.Equipo;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;

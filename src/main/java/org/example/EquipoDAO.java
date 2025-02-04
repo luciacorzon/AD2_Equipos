@@ -4,6 +4,9 @@ import com.google.gson.*;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.TypedQuery;
+import org.example.serializadores.EquipoDeserializer;
+
 import java.io.*;
 import java.util.List;
 
@@ -16,7 +19,7 @@ public class EquipoDAO {
     public EquipoDAO() {
     }
 
-    public List<Equipo> getAllFromJSON(){
+    public List<Equipo> getAllFromJSON() {
         List<Equipo> equipos = null;
 
         try (Reader reader = new FileReader(ARCHIVO)) {
@@ -117,19 +120,35 @@ public class EquipoDAO {
     }
 
 
-    public void saveEntrenador(Entrenador entrenador){
+    public void saveEntrenador(Entrenador entrenador) {
         try {
             em.getTransaction().begin();
             em.persist(entrenador);
             em.getTransaction().commit();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.err.println("Erro ó gardar o entrenador: " + e.getMessage());
             em.getTransaction().rollback();
         }
     }
 
-    public void getInfoEquipo(Equipo e){
+    public void getInfoEquipo(Equipo e) {
         System.out.println(em.find(Equipo.class, e.getIdEquipo()));
 
+    }
+
+    public List<Jugador> getJugadores(Equipo e) {
+        List<Jugador> jugadores = null;
+
+        try {
+            TypedQuery<Jugador> query = em.createQuery(
+                    "SELECT j FROM Jugador j WHERE j.equipo = :equipo", Jugador.class);
+            query.setParameter("equipo", e);
+
+            jugadores = query.getResultList();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return jugadores;
     }
 }
